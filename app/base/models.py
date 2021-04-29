@@ -4,7 +4,6 @@ Copyright (c) 2019 - present AppSeed.us
 """
 
 from flask_login import UserMixin
-from sqlalchemy import Binary, Column, Integer, String
 
 from app import db, login_manager
 
@@ -14,10 +13,10 @@ class User(db.Model, UserMixin):
 
     __tablename__ = 'User'
 
-    id = Column(Integer, primary_key=True)
-    username = Column(String, unique=True)
-    email = Column(String, unique=True)
-    password = Column(Binary)
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String, unique=True)
+    email = db.Column(db.String, unique=True)
+    password = db.Column(db.LargeBinary)
 
     def __init__(self, **kwargs):
         for property, value in kwargs.items():
