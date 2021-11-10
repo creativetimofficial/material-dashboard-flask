@@ -2,13 +2,15 @@
 
  ![version](https://img.shields.io/badge/version-1.0.1-blue.svg) [![GitHub issues open](https://img.shields.io/github/issues/creativetimofficial/material-dashboard-flask.svg?maxAge=2592000)](https://github.com/creativetimofficial/material-dashboard-flask/issues?q=is%3Aopen+is%3Aissue) [![GitHub issues closed](https://img.shields.io/github/issues-closed-raw/creativetimofficial/material-dashboard-flask.svg?maxAge=2592000)](https://github.com/creativetimofficial/material-dashboard-flask/issues?q=is%3Aissue+is%3Aclosed) [![Join the chat at https://gitter.im/NIT-dgp/General](https://badges.gitter.im/NIT-dgp/General.svg)](https://gitter.im/creative-tim-general/Lobby) [![Chat](https://img.shields.io/badge/chat-on%20discord-7289da.svg)](https://discord.gg/E4aHAQy)
 
-![Material Dashboard Flask - Admin Dashboard coded in Django.](https://github.com/creativetimofficial/material-dashboard-flask/blob/master/media/material-dashboard-flask-intro.gif)
+![Material Dashboard Flask - Seed Project crafted by AppSeed and Creative-Tim.](https://user-images.githubusercontent.com/51070104/138474101-7a46215e-daa8-489d-b811-19eb1c3ce4da.gif)
 
 <br />
 
 > Free product - **Flask Dashboard** starter project - Features:
 
-- UI Kit: **Material Dashboard** (Free Version) 
+- Up-to-date [dependencies](./requirements.txt): **Flask 2.0.1**
+- [SCSS compilation](#recompile-css) via **Gulp**
+- UI Kit: **Material Dashboard - v3.0.0** (Bootstrap 5 Version) by **Creative-Tim**
 - Flask Codebase - provided by **[AppSeed](https://appseed.us/)**
 - SQLite, PostgreSQL, SQLAlchemy ORM
 - Alembic (DB schema migrations)
@@ -22,6 +24,7 @@
 ## Table of Contents
 
 * [Demo](#demo)
+* [Docker Support](#docker-support)
 * [Quick Start](#quick-start)
 * [Documentation](#documentation)
 * [File Structure](#file-structure)
@@ -39,6 +42,27 @@
 > To authenticate use the default credentials ***test / pass*** or create a new user on the [registration page](https://www.creative-tim.com/live/material-dashboard-flask).
 
 - **Material Dashboard Flask** [Login Page](https://www.creative-tim.com/live/material-dashboard-flask)
+
+<br />
+
+## Docker Support
+
+> Get the code
+
+```bash
+$ git clone https://github.com/app-generator/material-dashboard-flask.git
+$ cd material-dashboard-flask
+```
+
+> Start the app in Docker
+
+```bash
+$ docker-compose pull   # download dependencies 
+$ docker-compose build  # local set up
+$ docker-compose up -d  # start the app 
+```
+
+Visit `http://localhost:85` in your browser. The app should be up & running.
 
 <br />
 
@@ -98,38 +122,112 @@ Within the download you'll find the following directories and files:
 ```bash
 < PROJECT ROOT >
    |
-   |-- app/
-   |    |-- home/                                # Home Blueprint - serve app pages (private area)
-   |    |-- base/                                # Base Blueprint - handles the authentication
-   |         |-- static/
-   |         |    |-- <css, JS, images>          # CSS files, Javascripts files
-   |         |
-   |         |-- templates/                      # Templates used to render pages
-   |              |
-   |              |-- includes/                  #
-   |              |    |-- navigation.html       # Top menu component
-   |              |    |-- sidebar.html          # Sidebar component
-   |              |    |-- footer.html           # App Footer
-   |              |    |-- scripts.html          # Scripts common to all pages
-   |              |
-   |              |-- layouts/                   # Master pages
-   |              |    |-- base-fullscreen.html  # Used by Authentication pages
-   |              |    |-- base.html             # Used by common pages
-   |              |
-   |              |-- accounts/                  # Authentication pages
-   |                   |-- login.html            # Login page
-   |                   |-- register.html         # Registration page
+   |-- apps/
+   |    |
+   |    |-- home/                          # A simple app that serve HTML files
+   |    |    |-- routes.py                 # Define app routes
+   |    |
+   |    |-- authentication/                # Handles auth routes (login and register)
+   |    |    |-- routes.py                 # Define authentication routes  
+   |    |    |-- models.py                 # Defines models  
+   |    |    |-- forms.py                  # Define auth forms (login and register) 
+   |    |
+   |    |-- static/
+   |    |    |-- <css, JS, images>         # CSS files, Javascripts files
+   |    |
+   |    |-- templates/                     # Templates used to render pages
+   |    |    |-- includes/                 # HTML chunks and components
+   |    |    |    |-- navigation.html      # Top menu component
+   |    |    |    |-- sidebar.html         # Sidebar component
+   |    |    |    |-- footer.html          # App Footer
+   |    |    |    |-- scripts.html         # Scripts common to all pages
+   |    |    |
+   |    |    |-- layouts/                   # Master pages
+   |    |    |    |-- base-fullscreen.html  # Used by Authentication pages
+   |    |    |    |-- base.html             # Used by common pages
+   |    |    |
+   |    |    |-- accounts/                  # Authentication pages
+   |    |    |    |-- login.html            # Login page
+   |    |    |    |-- register.html         # Register page
+   |    |    |
+   |    |    |-- home/                      # UI Kit Pages
+   |    |         |-- index.html            # Index page
+   |    |         |-- 404-page.html         # 404 page
+   |    |         |-- *.html                # All other pages
+   |    |    
+   |  config.py                             # Set up the app
+   |    __init__.py                         # Initialize the app
    |
-   |-- requirements.txt                          # Development modules - SQLite storage
-   |-- requirements-mysql.txt                    # Production modules  - Mysql DMBS
-   |-- requirements-pqsql.txt                    # Production modules  - PostgreSql DMBS
+   |-- requirements.txt                     # Development modules - SQLite storage
+   |-- requirements-mysql.txt               # Production modules  - Mysql DMBS
+   |-- requirements-pqsql.txt               # Production modules  - PostgreSql DMBS
    |
-   |-- .env                                      # Inject Configuration via Environment
-   |-- config.py                                 # Set up the app
-   |-- run.py                                    # Start the app - WSGI gateway
+   |-- Dockerfile                           # Deployment
+   |-- docker-compose.yml                   # Deployment
+   |-- gunicorn-cfg.py                      # Deployment   
+   |-- nginx                                # Deployment
+   |    |-- appseed-app.conf                # Deployment 
+   |
+   |-- .env                                 # Inject Configuration via Environment
+   |-- run.py                               # Start the app - WSGI gateway
    |
    |-- ************************************************************************
 ```
+
+<br />
+
+> The bootstrap flow
+
+- `run.py` loads the `.env` file
+- Initialize the app using the specified profile: *Debug* or *Production*
+  - If env.DEBUG is set to *True* the SQLite storage is used
+  - If env.DEBUG is set to *False* the specified DB driver is used (MySql, PostgreSQL)
+- Call the app factory method `create_app` defined in app/__init__.py
+- Redirect the guest users to Login page
+- Unlock the pages served by *home* blueprint for authenticated users
+
+<br />
+
+## Recompile CSS
+
+To recompile SCSS files, follow this setup:
+
+<br />
+
+**Step #1** - Install tools
+
+- [NodeJS](https://nodejs.org/en/) 12.x or higher
+- [Gulp](https://gulpjs.com/) - globally 
+    - `npm install -g gulp-cli`
+- [Yarn](https://yarnpkg.com/) (optional) 
+
+<br />
+
+**Step #2** - Change the working directory to `assets` folder
+
+```bash
+$ cd apps/static/assets
+```
+
+<br />
+
+**Step #3** - Install modules (this will create a classic `node_modules` directory)
+
+```bash
+$ npm install
+// OR
+$ yarn
+```
+
+<br />
+
+**Step #4** - Edit & Recompile SCSS files 
+
+```bash
+$ gulp scss
+```
+
+The generated file is saved in `static/assets/css` directory.
 
 <br />
 
